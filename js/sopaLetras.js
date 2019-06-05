@@ -3,6 +3,7 @@ var palabras=[]; // donde se almacenaran las palabras que el usuario ingreso.
 var Letras=['a','b','c','d','h','i','o','e','u','s','t','p','q'] // array para rellenar espacios vacios
 var longitudMatriz=10; //longitud maxima de la matriz
 var matrizSopaLetras=[]; // matriz donde se almacenaran la sopa de letras
+var contenedor=document.getElementById('contenedor');
 for (var i = 0; i < longitudMatriz; i++)
 {
 	matrizSopaLetras[i]= new Array(longitudMatriz);	
@@ -24,6 +25,15 @@ function ingresarPalabra()
 	}
 
 }
+function limpiar()
+{
+	for (var i = 0; i < longitudMatriz; i++)
+	{
+		matrizSopaLetras[i]= new Array(longitudMatriz);	
+	}
+	contenedor.innerHTML="";
+	
+}
 
 function agregarPalabra(palabra)
 {
@@ -33,7 +43,7 @@ function agregarPalabra(palabra)
 
 function acomodarPalabras() // funcion para acomodar palabras en la matriz
 {
-	// btnAgregarPalabra.disabled=true;
+	limpiar();	
 	for (var i = 0; i < palabras.length; i++) 
 	{
 		let aleatorio= Math.floor(Math.random() *3);
@@ -44,31 +54,31 @@ function acomodarPalabras() // funcion para acomodar palabras en la matriz
 					var resultado=false;
 					resultado=(horizontal(palabras[i],i))?true:vertical(palabras[i],i);
 					resultado=(resultado)?true:diagonal(palabras[i],i);
-					resultado=(resultado)?true:diagonalInversa(palabras[i],i);
+					resultado=(resultado)?true:diagonal(palabras[i],longitudMatriz);
+					resultado=(resultado)?true:horizontal(palabras[i],i);
+					resultado=(resultado)?true:vertical(palabras[i],longitudMatriz);
+					resultado=(resultado)?true:horizontal(palabras[i],longitudMatriz);
 					
 					break;
 			case 1:
 					var resultado=false;
 					resultado=(diagonal(palabras[i],i))?true:vertical(palabras[i],i);
 					resultado=(resultado)?true:horizontal(palabras[i],i);
-					resultado=(resultado)?true:diagonalInversa(palabras[i],i);
-					
+					resultado=(resultado)?true:diagonal(palabras[i],i);
+					resultado=(resultado)?true:diagonal(palabras[i],longitudMatriz);
+					resultado=(resultado)?true:horizontal(palabras[i],longitudMatriz);
+					resultado=(resultado)?true:vertical(palabras[i],longitudMatriz);
 					break;
 			case 2:
 					var resultado=false;
 					resultado=vertical(palabras[i],i)?true:horizontal(palabras[i],i);
+					resultado=(resultado)?true:vertical(palabras[i],i);
 					resultado=(resultado)?true:diagonal(palabras[i],i);
-					resultado=(resultado)?true:diagonalInversa(palabras[i],i);
+					resultado=(resultado)?true:diagonal(palabras[i],longitudMatriz);
+					resultado=(resultado)?true:vertical(palabras[i],longitudMatriz);
+					resultado=(resultado)?true:horizontal(palabras[i],longitudMatriz);
 					break;
-			case 3:
-					var resultado=false;
-					resultado=(diagonalInversa(palabras[i],i))?true:vertical(palabras[i],i);
-					resultado=(resultado)?true:horizontal(palabras[i],i);
-					resultado=(resultado)?true:diagonal(palabras[i],i);
-
-
-					break;
-					
+			
 		}
 	}
 	pintarSopaLetras();
@@ -172,56 +182,6 @@ function diagonal(palabra,posicion)
 	}
 }
 
-function diagonalInversa(palabra,posicion)
-{
-	var indice=0;
-	let disponible=true;
-	let colum=Math.floor(Math.random()*(longitudMatriz-2));
-
-	for (var i = posicion;(i >=0 && i+colum<longitudMatriz); i--)
-	{
-
-		if (matrizSopaLetras[i][i+colum]!=null)
-		{
-			
-			if ((((i-2)-1)>=palabra.length) || (((colum+1)-1)>=palabra.length))
-			{
-				indice=i-2;
-				colum=colum+i-2;
-				disponible=true;
-			}
-			else
-			{
-				disponible=false;
-			}
-		}
-	} 
-	if (disponible)
-		{
-			if(Math.floor(Math.random() * 2)==0)
-			{
-				for (var i = 0; i < palabra.length; i++) 
-				{
-					console.log(palabra.charAt(i));
-					matrizSopaLetras[indice-i][colum-i]=palabra.charAt(i);
-				}
-			}
-			else
-			{
-				for (var i = 0; i < palabra.length; i++) 
-				{
-					console.log(palabra.charAt(palabra.length-i-1));
-					matrizSopaLetras[indice-i][colum-i]=palabra.charAt(palabra.length-i);
-				}
-			}
-			return true;
-		}
-	else
-	{
-		console.log("no se pudo pintar en la matriz");
-		return false;
-	}
-}
 
 
 function vertical(palabra,posicion)
@@ -275,7 +235,7 @@ function vertical(palabra,posicion)
 
 function pintarSopaLetras()
 {
-	var contenedor=document.getElementById('contenedor');
+	
 	for (var i = 0; i < matrizSopaLetras.length; i++) 
 		{
 			for (var j = 0; j < matrizSopaLetras.length;j++) 
