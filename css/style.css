@@ -1,0 +1,34 @@
+body
+{
+	margin: auto;
+}
+
+.letras
+{
+    margin: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.blue
+{
+	background-color: #4D93F1;
+
+}
+
+.red
+{
+	background-color:#F14D6B;
+
+}
+
+.letras-round
+{
+	background-color: #F14D6B;
+
+}
+
+.morado
+{
+	background: #A14DF1;
+}
